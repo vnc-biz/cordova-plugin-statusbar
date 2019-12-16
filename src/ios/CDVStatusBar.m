@@ -146,7 +146,7 @@ static const void *kStatusBarStyle = &kStatusBarStyle;
     } else {
         self.webView.scrollView.scrollsToTop = NO;
     }
- 
+
     // blank scroll view to intercept status bar taps
     UIScrollView *fakeScrollView = [[UIScrollView alloc] initWithFrame:UIScreen.mainScreen.bounds];
     fakeScrollView.delegate = self;
@@ -309,12 +309,22 @@ static const void *kStatusBarStyle = &kStatusBarStyle;
 
 - (void) styleBlackTranslucent:(CDVInvokedUrlCommand*)command
 {
-    [self setStyleForStatusBar:UIStatusBarStyleLightContent];
+    BOOL isIOS13 = (IsAtLeastiOSVersion(@"13.0"));
+    if (isIOS13) {
+        [self setStyleForStatusBar:UIStatusBarStyleDarkContent];
+    } else {
+        [self setStyleForStatusBar:UIStatusBarStyleLightContent];
+    }
 }
 
 - (void) styleBlackOpaque:(CDVInvokedUrlCommand*)command
 {
-    [self setStyleForStatusBar:UIStatusBarStyleLightContent];
+    BOOL isIOS13 = (IsAtLeastiOSVersion(@"13.0"));
+    if (isIOS13) {
+        [self setStyleForStatusBar:UIStatusBarStyleDarkContent];
+    } else {
+        [self setStyleForStatusBar:UIStatusBarStyleLightContent];
+    }
 }
 
 - (void) backgroundColorByName:(CDVInvokedUrlCommand*)command
@@ -467,7 +477,7 @@ static const void *kStatusBarStyle = &kStatusBarStyle;
     }
     frame.size.height -= frame.origin.y;
     self.webView.frame = frame;
-    
+
 }
 
 - (void) dealloc
